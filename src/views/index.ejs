@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/main.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://kit.fontawesome.com/0c10f5a975.js" crossorigin="anonymous"></script>
+    <title>CRUD Todo 3D</title>
+</head>
+<body>
+    <main>
+        <div id="dvCardLogin">
+            <div id="dvBienvenido">
+                <h3 id="h3Bienvenido">Bienvenido,</h3>
+                <p id="pBienvenido">para continuar ingrese su usuario.</p>
+            </div>
+            <p id="pError"><i class='bx bx-info-circle'></i>El usuario y la contraseña no coinciden</p>
+            <div id="dvInputs">
+                <input type="text" id="inpUser" class="inp" placeholder="Usuario">
+                <input type="password" id="inpPassword" class="inp" placeholder="Contraseña">
+                <i class="fa-sharp fa-solid fa-eye eyes" id="noSlashEye"></i>
+                <i class="fa-sharp fa-solid fa-eye-slash eyes" id="slashEye"></i>
+            </div>
+            <div id="dvContinuar">
+                <button id="btnContinuar">Continuar</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="./js/main.js"></script>
+</body>
+</html>

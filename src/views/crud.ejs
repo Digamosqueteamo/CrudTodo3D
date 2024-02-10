@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/crud.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://kit.fontawesome.com/0c10f5a975.js" crossorigin="anonymous"></script>
+    <title>CRUD</title>
+</head>
+<body>
+    <main>
+        <div id="dvCrear">
+            <h1 class="h1Titulos">Agregar nuevo producto:</h1>
+            <div id="dvAgregar">
+                <input type="text" id="inpAgregarNombre" class="inpAgregar" placeholder="Nombre">
+                <input type="text" id="inpAgregarCategoria" class="inpAgregar" placeholder="Categoría">
+                <div id="dvInpPrecio">
+                    <input type="text" id="inpAgregarPrecio" class="inpAgregar" placeholder="Precio">
+                    <p id="pSimboloDinero">$</p>
+                </div>
+                
+                <div id="dvAgregarImagen">
+                    <label for="inpAgregarImagen" id="lblAgregar">
+                        <span id="spanNingun">Ningún archivo fue seleccionado</span>
+                        <span id="spanAgregar">Seleccionar</span>
+                    </label>
+                    <input type="file" id="inpAgregarImagen" multiple="false">
+                </div>
+                <div id="dvBtnAgregar">
+                    <button id="btnAgregar">Agregar</button>
+                </div>
+                
+            </div>
+        </div>
+        <div id="dvMostrar">
+            <div id="dvTiuloTodo3D">
+                <h1 class="h1Titulos">Todo3D Database:</h1>
+            </div>
+            
+            <div id="dvTabla">
+                <div id="dvEncabezado">
+                    <p class="pEncabezado" id="pId">ID</p>
+                    <p class="pEncabezado" id="pNombre">NOMBRE</p>
+                    <p class="pEncabezado" id="pCategoria">CATEGORÍA</p>
+                    <p class="pEncabezado" id="pPrecio">PRECIO</p>
+                    <p class="pEncabezado" id="pImagen">IMAGEN</p>
+                    <p class="pEncabezado" id="pAcciones">ACCIONES</p>
+                </div>
+                <%miRecordset.forEach(producto => {%>
+                    <div class="fila" id="<%=producto.id%>fila">
+                        <div class="dvId dvFila">
+                            <p class="id"><%=producto.id%></p>
+                        </div>
+                        <div class="dvNombreProducto dvFila">
+                            <p class="pFila" id="<%=producto.id%>p"><%=producto.nombreProducto%></p>
+                        </div>
+                        <div class="dvCategoria dvFila">
+                            <input class="pFila <%=producto.id%>inpfila" id="<%=producto.id%>inpCategoria" value="<%=producto.categoria%>" readonly>
+                        </div>
+                        <div class="dvPrecio dvFila">
+                            <input class="pFila <%=producto.id%>inpfila" id="<%=producto.id%>inpPrecio" value="<%=producto.precio%>" readonly>
+                        </div>
+                        <div class="dvImagen dvFila" id="<%=producto.id%>dvImagen">
+                            <img src="<%=producto.imagenURL%>" alt="ImagenProducto" class="imagen">
+                        </div>
+                        <div class="dvCambiarImagen dvFila" id="<%=producto.id%>dvCambiar">
+                            <label for="<%=producto.id%>inpCambiar" class="lblCambiar">
+                                <span class="spanCambiarNingun" id="<%=producto.id%>inpCambiarspan" >Ningún archivo fue seleccionado</span>
+                                <span class="spanCambiarAgregar">Seleccionar</span>
+                            </label>
+                            <input type="file" class="inpCambiarImagen" id="<%=producto.id%>inpCambiar" multiple="false">
+                        </div>
+                        <div class="dvAcciones dvFila">
+                            <button class="btnAccion btnConfirmar" id="<%=producto.id%>"><i class="fa-solid fa-check"></i></button>
+                            <button class="btnAccion btnEditar" id="<%=producto.id%>"><i class="fa-solid fa-pen"></i></button>
+                            <button class="btnAccion btnEliminar" id="<%=producto.id%>"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </div>
+                <%})%>
+                <div id="dvParaZIdezAbajo">
+
+                </div>
+                
+            </div>
+        </div>
+        
+    </main>
+
+    <script src="./js/crud.js"></script>
+</body>
+</html>

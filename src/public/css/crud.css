@@ -1,0 +1,417 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600&display=swap');
+
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: #E8E8E8;
+}
+
+main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background-color: #E8E8E8;
+}
+
+#dvCrear{
+    margin-top: 100px;
+    margin-bottom: 50px;
+}
+
+.h1Titulos{
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 600;
+    font-size: 40px;
+}
+
+#dvAgregar{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 2fr 0.8fr;
+    background-color: #f2efef;
+    align-items: center;
+    gap: 20px;
+    width: 900px;
+    height: 60px;
+    padding-left: 10px;
+}
+
+.inpAgregar{
+    width: 150px;
+    height: 40px;
+    border-radius: 5px;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 600;
+    border: 2px solid #323232;
+    font-size: 20px;
+    padding: 5px 10px;
+    color: #666666;
+    outline: none;
+}
+
+#inpAgregarImagen{
+    display: none;
+}
+
+#dvAgregarImagen{
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+#lblAgregar{
+    display: grid;
+    grid-template-columns: 2fr 1.2fr;
+    height: 50px;
+}
+
+#spanNingun{
+    display: flex;
+    align-items: center;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 15px;
+    padding-left: 10px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom: 2px solid #667077;
+    /*border-top: 1.5px solid #7A909E;*/
+    border-top: 2px solid #667077;
+    border-left: 2px solid #667077;
+    color: #66707773;
+    overflow:auto;
+}
+
+#spanAgregar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 600;
+    background-color: #cad0d4;
+    font-size: 15px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border: 2px solid #667077;
+    color: #454b50;
+    cursor: pointer;
+}
+
+.inpCambiarImagen{
+    display: none;
+}
+
+
+
+.lblCambiar{
+    display: grid;
+    grid-template-rows: 2fr 1.2fr;
+    height: 100px;
+    width: 130px;
+}
+
+
+.spanCambiarNingun{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 15px;
+    padding-top: 5px;
+    padding-left: 5px;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    border-top: 2px solid #667077;
+    /*border-top: 1.5px solid #7A909E;*/
+    border-right: 2px solid #667077;
+    border-left: 2px solid #667077;
+    color: #66707773;
+    overflow:auto;
+}
+
+.spanCambiarAgregar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 600;
+    background-color: #cad0d4;
+    font-size: 15px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border: 2px solid #667077;
+    color: #454b50;
+    cursor: pointer;
+}
+
+#dvInpPrecio{
+    position: relative;
+}
+
+#pSimboloDinero{
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 600;
+    position: absolute;
+    font-size: 20px;
+    bottom: 8px;
+    right: 10px;
+    color: #666666;
+}
+
+#dvBtnAgregar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 90%;
+    border-left: 1px solid grey;
+}
+
+#btnAgregar{
+    width: 80px;
+    height: 30px;
+    border-radius: 10px;
+    border: 0;
+    cursor: pointer;
+    background-color: rgb(69, 97, 238);
+    outline: 4px solid rgb(69, 97, 238);
+    outline-offset: -2px;
+    font-size: 18px;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 600;
+    color: white;
+    transition: outline-offset 200ms ease;
+}
+
+#btnAgregar:hover{
+    outline-offset: 3px;
+}
+
+#dvTiuloTodo3D{
+    position: relative;
+    background-color: #E8E8E8;
+    z-index: 5;
+}
+
+#dvEncabezado{
+    position: relative;
+    display: flex;
+    background-color: #f2efef;
+    border-top: 2px solid #c9cccf;
+    border-bottom: 2px solid #c9cccf;
+    height: 30px;
+    align-items: center;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 600;
+    z-index: 5;
+}
+
+#pId{
+    margin-left: 10px;
+}
+
+#pNombre{
+    margin-left: 80px;
+}
+
+#pCategoria{
+    margin-left: 100px;
+}
+
+#pPrecio{
+    margin-left: 80px;
+}
+
+#pImagen{
+    margin-left: 80px;
+}
+
+#pAcciones{
+    margin-left: 110px;
+}
+
+.fila{
+    position: relative;
+    display: flex;
+    align-items: center;
+    background-color: #f2efef;
+    width: 900px;
+    height: 120px;
+    border-bottom: 1px solid #c9cccf;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 20px;
+    z-index: 3;
+}
+
+.dvFila{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    text-align: center;
+}
+
+.dvCambiarImagen{
+    display: none;
+    width: 150px;
+    margin-left: 20px;
+}
+
+.inpFila{
+    border: 0;
+    outline: 0;
+    text-align: center;
+    border-bottom: 2px solid #666666;
+    background-color: transparent;
+    width: 100%;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 20px;
+    
+}
+
+.pFila{
+    border: 0;
+    text-align: center;
+    outline: 0;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 20px;
+    background-color: transparent;
+}
+
+
+.dvId{
+    width: 20px;
+    margin-left: 5px;
+}
+
+.dvNombreProducto{
+    width: 150px;
+    margin-left: 40px;
+}
+
+.dvCategoria{
+    width: 100px;
+    margin-left: 55px;
+}
+
+.dvPrecio{
+    width: 100px;
+    margin-left: 55px;
+}
+
+.dvImagen{
+    width: 150px;
+    margin-left: 20px;
+    overflow: hidden;
+    position: relative;
+}
+
+.imagen{
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    object-fit: cover;
+    object-position: center;
+}
+
+.dvAcciones{
+    position: relative;
+    display: flex;
+    width: 150px;
+    margin-left: 30px;
+}
+
+.btnAccion{
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    border: 0;
+    cursor: pointer;
+    text-shadow: 2px 2px 1px rgb(75, 75, 75);
+}
+
+.btnConfirmar{
+    display: none; 
+    position: absolute;
+    left: 27px;
+    bottom: 110px;
+    margin-right: 20px;
+    background-color: rgb(69, 221, 238);
+    outline: 4px solid rgb(69, 221, 238);
+    color: white;
+    outline-offset: -2px;
+    font-size: 23px;
+    transition: outline-offset 200ms ease, transform 300ms ease;
+    z-index: 4;
+}
+
+.btnConfirmar:hover{
+    outline-offset: 3px;
+}
+
+.btnEditar{
+    position: absolute;
+    left: 27px;
+    margin-right: 20px;
+    background-color: rgb(165, 238, 69);
+    outline: 4px solid rgb(165, 238, 69);
+    color: white;
+    outline-offset: -2px;
+    font-size: 18px;
+    transition: outline-offset 200ms ease, transform 300ms ease;
+}
+
+.btnEditarDisabled{
+    position: absolute;
+    left: 27px;
+    margin-right: 20px;
+    background-color: rgb(133, 185, 65);
+    outline: 4px solid rgb(133, 185, 65);
+    color: rgb(193, 192, 192);
+    outline-offset: -2px;
+    font-size: 18px;
+    transition: outline-offset 200ms ease, transform 300ms ease;
+}
+
+.btnEditar:hover{
+    outline-offset: 3px;
+}
+
+.btnEliminar{
+    position: absolute;
+    right: 27px;
+    background-color: rgb(238, 69, 69);
+    outline: 4px solid rgb(238, 69, 69);
+    outline-offset: -2px;
+    font-size: 18px;
+    color: white;
+    transition: outline-offset 200ms ease;
+}
+
+.btnEliminarDisabled{
+    position: absolute;
+    right: 27px;
+    background-color: rgb(185, 65, 65);
+    outline: 4px solid rgb(185, 65, 65);
+    outline-offset: -2px;
+    font-size: 18px;
+    color: rgb(193, 192, 192);
+    transition: outline-offset 200ms ease;
+}
+
+
+.btnEliminar:hover{
+    outline-offset: 3px;
+}
+
+#dvParaZIdezAbajo{
+    background-color: #E8E8E8;
+    position: relative;
+    height: 70px;
+    z-index: 5;
+}

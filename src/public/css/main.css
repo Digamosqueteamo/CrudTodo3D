@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=Rethink+Sans&family=Work+Sans:wght@600&display=swap');
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+main{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #E8E8E8;
+    
+}
+
+#dvCardLogin{
+    display: flex;
+    flex-direction: column;
+    background-color: #D3D3D3;
+    border: 3px solid #323232;
+    border-radius: 5px;
+    padding: 20px;
+    height: 400px;
+    width: 300px;
+    box-shadow: 5px 5px #323232;
+    transform: scale(130%);
+}
+
+#h3Bienvenido{
+    color: #323232;
+    font-size: 30px;
+    font-family: 'Work Sans', sans-serif;
+}
+
+#pBienvenido{
+    color: #666666;
+    font-size: 20px;
+    font-family: 'Work Sans', sans-serif;
+}
+
+#dvInputs{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.inp{
+    width: 100%;
+    height: 40px;
+    border-radius: 5px;
+    font-family: 'Work Sans', sans-serif;
+    border: 2px solid #323232;
+    box-shadow: 5px 5px #323232;
+    margin-bottom: 20px;
+    font-size: 20px;
+    padding: 5px 10px;
+    color: #666666;
+    outline: none;
+}
+
+#dvContinuar{
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+#btnContinuar{
+    width: 146px;
+    height: 36px;
+    border-radius: 10px;
+    background-color: #666666;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    border: 0;
+    outline: solid 4px #666666;
+    transition: outline-offset 200ms ease;
+    outline-offset: -10px;
+    cursor: pointer;
+}
+
+#btnContinuar:hover{
+    outline-offset: 3px;
+}
+
+#pError{
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    color: rgb(213, 0, 0);
+    font-size: 12px;
+    font-family: 'Work Sans', sans-serif;
+    opacity: 0;
+}
+
+.eyes{
+    color: #666666;
+    position: absolute;
+    right: 10px;
+    bottom: 30px;
+    cursor: pointer;
+}
+
+#noSlashEye{
+    right: 11px;
+}
+
+#noSlashEye{
+    display: none;
+}
