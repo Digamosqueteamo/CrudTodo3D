@@ -114,26 +114,31 @@ function subirImagen(imagen){
     });
 }*/
 
-function blobToBuffer(blob) {
+/*function blobToBuffer(blob) {
     return new Promise((resolve, reject) => {
       const chunks = [];
       blob.on('data', chunk => chunks.push(chunk));
       blob.on('end', () => resolve(Buffer.concat(chunks)));
       blob.on('error', error => reject(error));
     });
-}
+}*/
 
-async function subirImagen(imagen,nombreArchivo){
+async function subirImagen(imagen, nombreArchivo){
     try {
         await bucket.file(nombreArchivo).save(imagen);
         console.log('Imagen subida correctamente a Firebase Storage');
-      /*fs.readFile('src/public/pene.jpg', async (err, data) => {
-        console.log(data);
-        await bucket.file(nombreArchivo).save(data);
-        console.log('Imagen subida correctamente a Firebase Storage');
-        });*/
     } catch (error) {
       console.error('Error al subir la imagen a Firebase Storage:', error);
+    }
+}
+
+async function obtenerURL(nombreArchivo){
+    try {
+        const imagenStorageRef = ref(storage, nombreArchivo);
+        return await getDownloadURL(imagenStorageRef);
+    }catch (error) {
+        console.error('Error al eliminar la imagen de Firebase Storage:', error);
+        return;
     }
 }
 
@@ -155,14 +160,66 @@ router.post('/agregarProducto', upload.single('imagen'), async (req, res) => {
         await subirImagen(imagen, `${id}.jpg`);
         /*const refImagen = bucket.file(`${id}.jpg`)
         refImagen.getSignedUrl({action: 'read', expires: '03-09-2025'}).then((url) => {console.log(url[0])});*/
-        const imagenStorageRef = ref(storage, `${id}.jpg`);
-        const urlImagen = await getDownloadURL(imagenStorageRef);
+        const urlImagen = await obtenerURL(`${id}.jpg`);
         const myQuery3 = `UPDATE Productos SET imagenURL = '${urlImagen}' where id = ${id}`;
         await pool.request().query(myQuery3);
         const myQuery4 = `SELECT imagenURL FROM Productos where id = ${id}`;
-        console.log(pool.request().query(myQuery4));
+        console.log(await pool.request().query(myQuery4));
     }else{
         res.json({status:0});
+    }
+});
+
+router.post('/editarProducto', upload.single('imagen') /*el upload sirve para que la información del archivo no se pierda*/, async (req, res) => {
+    
+    const id = req.body.id;
+    const nombre = req.body.nombre;
+    const categoria = req.body.categoria;
+    const precio = req.body.precio;
+    const imagen = req.file;
+
+    if(imagen === undefined){
+        const myQuery1 = `SELECT nombreProducto FROM Productos WHERE id <> ${id} and nombreProducto = '${nombre}'`;
+        const resultado1 = (await pool.request().query(myQuery1)).recordset;
+        if(resultado1.length === 0){
+            const myQuery2 = `UPDATE Productos set nombreProducto = '${nombre}', categoria = '${categoria}', precio = '${precio}' WHERE id = ${id}`;
+            await pool.request().query(myQuery2);
+            res.json({status: 1});
+        }else{
+            res.json({status: 0});
+        }
+
+        /*const myQuery1 = `SELECT nombreProducto FROM Productos WHERE id = ${id}`;
+        const resultado1 = (await pool.request().query(myQuery1)).recordset;
+        if(nombre === resultado1[0].nombreProducto){
+            //console.log('El nombre es el mismo, solo cambio la categoría y el precio');
+            const myQuery2 = `UPDATE Productos set categoria = '${categoria}', precio = '${precio}' WHERE id = ${id}`;
+            await pool.request().query(myQuery2);
+            res.json({status: 1});
+        }else{
+            const myQuery2 = `SELECT nombreProducto FROM Productos WHERE id <> ${id} and nombreProducto = '${nombre}'`;
+            const resultado2 = (await pool.request().query(myQuery2)).recordset;
+            if(resultado2.length === 0){
+                const myQuery3 = `UPDATE Productos set nombreProducto = '${nombre}', categoria = '${categoria}', precio = '${precio}' WHERE id = ${id}`;
+                await pool.request().query(myQuery3);
+                res.json({status: 1});
+            }else{
+                res.json({status: 0});
+            }
+        }*/
+    }else{
+        const myQuery1 = `SELECT nombreProducto FROM Productos WHERE id <> ${id} and nombreProducto = '${nombre}'`;
+        const resultado1 = (await pool.request().query(myQuery1)).recordset;
+        if(resultado1.length === 0){
+            subirImagen(imagen.buffer, `${id}.jpg`);
+            const URL = await obtenerURL(`${id}.jpg`);
+            const myQuery2 = `UPDATE Productos set nombreProducto = '${nombre}', categoria = '${categoria}', precio = '${precio}', imagenURL = '${URL}' WHERE id = ${id}`;
+            await pool.request().query(myQuery2);
+
+            res.json({status: 1});
+        }else{
+            res.json({status: 0});
+        }
     }
 });
 

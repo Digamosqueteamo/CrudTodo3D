@@ -55,6 +55,10 @@ main{
     outline: none;
 }
 
+#inpAgregarPrecio{
+    padding: 5px 25px 5px 10px;
+}
+
 #inpAgregarImagen{
     display: none;
 }
@@ -105,8 +109,6 @@ main{
 .inpCambiarImagen{
     display: none;
 }
-
-
 
 .lblCambiar{
     display: grid;

@@ -188,30 +188,43 @@ function editar(e){
 function confirmar(e){
     const id = e.currentTarget.id;
 
+    const nombre = document.getElementById(`${id}inp`).value;
+    const categoria = document.getElementById(`${id}inpCategoria`).value;
+    const precio = document.getElementById(`${id}inpPrecio`).value;
     const imagen = document.getElementById(`${id}inpCambiar`).files[0];
-
-    if(imagen === undefined){
-        normalizar(id);
-    }else{
-        const nombre = document.getElementById(`${id}inp`).value;
-        const categoria = document.getElementById(`${id}inpCategoria`).value;
-        const precio = document.getElementById(`${id}inpPrecio`).value;
-
-        editarProducto(id, nombre, categoria, precio, imagen);
-
-        normalizar(id);
-    }
-
     
-
-    
+    editarProducto(id, nombre, categoria, precio, imagen);
 }
 
 function editarProducto(id, nombre, categoria, precio, imagen){
+    //El form data es una especie de objeto que alverga información de tipo clave valor
+    const formData = new FormData();
+    formData.append('id', id);
+    formData.append('nombre', nombre);
+    formData.append('categoria', categoria);
+    formData.append('precio', precio);
+    formData.append('imagen', imagen);
 
+    console.log(id, nombre, categoria, precio, imagen);
+
+    fetch(`/editarProducto`,{
+        method: 'POST',
+        body: formData
+        }).then(response => response.json())
+        .then(data => {
+            if(data.status === 0){
+                alert('Ya existe un producto con ese nombre, por favor elija otro.');
+                document.getElementById(`${id}inp`).value = '';
+            }else{
+                normalizar(id);
+                window.location.reload();
+            }
+            
+        })
+        .catch(error => console.error('Error al agregar el producto:', error));
 }
 
-function base64ToBlob(base64String) {
+/*function base64ToBlob(base64String) {
     const byteString = atob(base64String.split(',')[1]);
     const mimeString = base64String.split(',')[0].split(':')[1].split(';')[0];
     const arrayBuffer = new ArrayBuffer(byteString.length);
@@ -222,7 +235,7 @@ function base64ToBlob(base64String) {
     }
   
     return new Blob([arrayBuffer], { type: mimeString });
-}
+}*/
 
 function agregarProducto(){
     if(inpAgregarNombre.value === '' || inpAgregarCategoria.value === '' || inpAgregarPrecio.value === '' || inpAgregarImagen.files[0].name === ''){
@@ -231,34 +244,15 @@ function agregarProducto(){
         const nombre = inpAgregarNombre.value;
         const categoria = inpAgregarCategoria.value;
         const precio = inpAgregarPrecio.value;
-        /*const imagen = new FormData();
-        imagen.append('imagen', inpAgregarImagen.files[0]);
-        console.log(inpAgregarImagen.files[0]);*/
-        //const imagen= inpAgregarImagen.files[0];
         const archivo = inpAgregarImagen.files[0];
 
-        // Crear un objeto FileReader
-        const reader = new FileReader();
-      
-        // Escuchar el evento load del FileReader
-        reader.onload = function(event){
-          // El resultado del FileReader contiene los datos de la imagen como una URL base64
-          const urlImagenBase64 = event.target.result;
-      
-          // Convertir la URL base64 a un Blob
-          const blob = base64ToBlob(urlImagenBase64);
-
-          const formData = new FormData();
-          formData.append('imagen', blob);
-          formData.append('nombre', nombre);
-          formData.append('categoria', categoria);
-          formData.append('precio', precio);
-          fetch(`/agregarProducto`,{
+        const formData = new FormData();
+        formData.append('imagen', archivo);
+        formData.append('nombre', nombre);
+        formData.append('categoria', categoria);
+        formData.append('precio', precio);
+        fetch(`/agregarProducto`,{
             method: 'POST',
-            /*headers: {
-                'Content-Type': 'application/json'
-            },*/
-            //body: JSON.stringify({nombre: nombre, categoria: categoria, precio: precio, imagen: formData})
             body: formData
             }).then(response => response.json())
             .then(data => {
@@ -271,10 +265,5 @@ function agregarProducto(){
                 
             })
             .catch(error => console.error('Error al agregar el producto:', error));
-        }
-
-        reader.readAsDataURL(archivo);
-
-        
     }
 }
