@@ -62,11 +62,9 @@ router.post('/confirmarUsuario', async (req, res) =>{
     const usuario = req.body.usuario;
     const contraseñaSupuesta = req.body.contraseña;
     let constraseñaReal;
-    let miRecordset;
-    await sql.connect(config1);
     const myQuery = `SELECT contraseña FROM Users WHERE nombre = '${usuario}'`;
     try{
-        miRecordset=(await sql.query(myQuery)).recordset;
+        const [miRecordset]= await pool.query(myQuery);
         constraseñaReal = miRecordset[0].contraseña;
     
         if(constraseñaReal === contraseñaSupuesta){
