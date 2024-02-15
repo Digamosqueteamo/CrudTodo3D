@@ -1,14 +1,25 @@
-import {Router} from 'express';
+/*import {Router} from 'express';
 import express from 'express';
 import { createPool } from "mysql2/promise";
-//import sql from 'mssql';
-import { /*DB_HOST1, DB_USER1, DB_PASSWORD1, DB_NAME1, DB_HOST2, DB_USER2, DB_PASSWORD2, DB_NAME2*/ DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT} from '../config.js';
+import {DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT} from '../config.js';
 import serviceAccount from '../../todo3d-7bc79-firebase-adminsdk-1hg06-38844ded31.json' with { type: "json" };
 import multer from 'multer';
 import {initializeApp} from 'firebase/app';
 import {getDownloadURL, getStorage, ref} from 'firebase/storage';
 
-import admin from 'firebase-admin';
+import admin from 'firebase-admin';*/
+
+const {Router} = require('express');
+const express = require('express');
+const { createPool } = require("mysql2/promise");
+const {DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT} = require('../config.js');
+const serviceAccount = require('../../todo3d-7bc79-firebase-adminsdk-1hg06-38844ded31.json');
+const multer = require('multer');
+const {initializeApp} = require('firebase/app');
+const {getDownloadURL, getStorage, ref} = require('firebase/storage');
+
+const admin = require('firebase-admin');
+
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     storageBucket: 'gs://todo3d-7bc79.appspot.com'
@@ -32,28 +43,6 @@ const upload = multer();
 const router= Router();
 
 router.use(express.json());
-
-/*const config1 = {
-    user: DB_USER1,
-    password: DB_PASSWORD1,
-    server: DB_HOST1,
-    database: DB_NAME1,
-    options: {
-      encrypt: false, 
-    },
-};
-
-const config2 = {
-    user: DB_USER2,
-    password: DB_PASSWORD2,
-    server: DB_HOST2,
-    database: DB_NAME2,
-    options: {
-      encrypt: false, 
-    },
-};*/
-
-//const pool = await sql.connect(config2);
 
 const config = {
     user: DB_USER,
@@ -79,10 +68,6 @@ router.post('/confirmarUsuario', async (req, res) =>{
     try{
         miRecordset=(await sql.query(myQuery)).recordset;
         constraseñaReal = miRecordset[0].contraseña;
-
-        console.log(constraseñaReal);
-        console.log(contraseñaSupuesta);
-        console.log(usuario);
     
         if(constraseñaReal === contraseñaSupuesta){
             res.json({status: 1});
@@ -95,44 +80,10 @@ router.post('/confirmarUsuario', async (req, res) =>{
 });
 
 router.get('/crud', async (req, res) => {
-    //await sql.connect(config2);
     const myQuery = `SELECT * FROM Productos`;
     let [miRecordset]=await pool.query(myQuery);
     res.render('crud', {miRecordset: miRecordset});
 });
-
-/*async function cargarImagen(imagen){
-    //let fileBuffer = await sharp(imagen.buffer).resize({width:400, height:400, fit: 'cover'}).toBuffer();
-    const fileRef = ref(storage, `files/${imagen.originalname} ${Date.now()}`);
-    const fileMetadata ={
-        contentType: imagen.mimetype
-    };
-    const fileUploadPromise = uploadBytesResumable(
-        fileRef, imagen.buffer, fileMetadata
-    );
-
-    await fileUploadPromise;
-
-    const fileDownloadURL = await getDownloadURL(fileRef);
-
-    return {ref: fileRef, downloadURL: fileDownloadURL}
-}
-
-function subirImagen(imagen){
-    const mountainsRef = ref(storage, 'mountains.jpg');
-    uploadBytes(mountainsRef, imagen).then((snapshot) => {
-        console.log('Uploaded a blob or file!');
-    });
-}*/
-
-/*function blobToBuffer(blob) {
-    return new Promise((resolve, reject) => {
-      const chunks = [];
-      blob.on('data', chunk => chunks.push(chunk));
-      blob.on('end', () => resolve(Buffer.concat(chunks)));
-      blob.on('error', error => reject(error));
-    });
-}*/
 
 async function subirImagen(imagen, nombreArchivo){
     try {
@@ -161,26 +112,19 @@ router.post('/agregarProducto', upload.single('imagen'), async (req, res) => {
     const imagen = req.file.buffer;
 
     const myQuery1 = `SELECT id FROM Productos WHERE nombreProducto = '${nombre}'`;
-    //const resultado1 = await pool.request().query(myQuery1);
     const [resultado1] = await pool.query(myQuery1);
-    if(resultado1.length === 0){ //le saqué el recordset
+    if(resultado1.length === 0){
         res.json({status:1});
         const myQuery2 = `INSERT Productos (nombreProducto, categoria, precio) values ('${nombre}', '${categoria}', ${precio})`;
-        //pool.request().query(myQuery2);
         await pool.query(myQuery2);
-        //const resultado2 = await pool.request().query(myQuery1);
         const [resultado2] = await pool.query(myQuery1);
-        //const id = resultado2.recordset[0].id;
         const id = resultado2[0].id;
         await subirImagen(imagen, `${id}.jpg`);
         /*const refImagen = bucket.file(`${id}.jpg`)
         refImagen.getSignedUrl({action: 'read', expires: '03-09-2025'}).then((url) => {console.log(url[0])});*/
         const urlImagen = await obtenerURL(`${id}.jpg`);
         const myQuery3 = `UPDATE Productos SET imagenURL = '${urlImagen}' where id = ${id}`;
-        //await pool.request().query(myQuery3);
         await pool.query(myQuery3);
-        const myQuery4 = `SELECT imagenURL FROM Productos where id = ${id}`;
-        //console.log(await pool.request().query(myQuery4));
     }else{
         res.json({status:0});
     }
@@ -196,44 +140,21 @@ router.post('/editarProducto', upload.single('imagen') /*el upload sirve para qu
 
     if(imagen === undefined){
         const myQuery1 = `SELECT nombreProducto FROM Productos WHERE id <> ${id} and nombreProducto = '${nombre}'`;
-        //const resultado1 = (await pool.request().query(myQuery1)).recordset;
         const [resultado1] = await pool.query(myQuery1);
         if(resultado1.length === 0){
             const myQuery2 = `UPDATE Productos set nombreProducto = '${nombre}', categoria = '${categoria}', precio = '${precio}' WHERE id = ${id}`;
-            //await pool.request().query(myQuery2);
             await pool.query(myQuery2);
             res.json({status: 1});
         }else{
             res.json({status: 0});
         }
-
-        /*const myQuery1 = `SELECT nombreProducto FROM Productos WHERE id = ${id}`;
-        const resultado1 = (await pool.request().query(myQuery1)).recordset;
-        if(nombre === resultado1[0].nombreProducto){
-            //console.log('El nombre es el mismo, solo cambio la categoría y el precio');
-            const myQuery2 = `UPDATE Productos set categoria = '${categoria}', precio = '${precio}' WHERE id = ${id}`;
-            await pool.request().query(myQuery2);
-            res.json({status: 1});
-        }else{
-            const myQuery2 = `SELECT nombreProducto FROM Productos WHERE id <> ${id} and nombreProducto = '${nombre}'`;
-            const resultado2 = (await pool.request().query(myQuery2)).recordset;
-            if(resultado2.length === 0){
-                const myQuery3 = `UPDATE Productos set nombreProducto = '${nombre}', categoria = '${categoria}', precio = '${precio}' WHERE id = ${id}`;
-                await pool.request().query(myQuery3);
-                res.json({status: 1});
-            }else{
-                res.json({status: 0});
-            }
-        }*/
     }else{
         const myQuery1 = `SELECT nombreProducto FROM Productos WHERE id <> ${id} and nombreProducto = '${nombre}'`;
-        //const resultado1 = (await pool.request().query(myQuery1)).recordset;
         const [resultado1] = await pool.query(myQuery1);
         if(resultado1.length === 0){
             subirImagen(imagen.buffer, `${id}.jpg`);
             const URL = await obtenerURL(`${id}.jpg`);
             const myQuery2 = `UPDATE Productos set nombreProducto = '${nombre}', categoria = '${categoria}', precio = '${precio}', imagenURL = '${URL}' WHERE id = ${id}`;
-            //await pool.request().query(myQuery2);
             await pool.query(myQuery2);
 
             res.json({status: 1});
@@ -243,4 +164,7 @@ router.post('/editarProducto', upload.single('imagen') /*el upload sirve para qu
     }
 });
 
-export default router;
+//export default router;
+//export default express.Router;
+
+module.exports = router;

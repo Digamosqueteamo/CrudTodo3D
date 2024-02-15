@@ -1,10 +1,16 @@
-import express from 'express';
+/*import express from 'express';
 import {dirname, join} from 'path';
 import {fileURLToPath} from 'url';
 import misRutas from './routes/index.js';
-import {PORT} from './config.js';
+import {PORT} from './config.js';*/
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
+const express = require('express');
+const {dirname, join} = require('path');
+const {fileURLToPath} = require('url');
+const misRutas = require('./routes/index.js');
+const {PORT} = require('./config.js');
+
+//const __dirnamePuta = dirname(fileURLToPath(import.meta.url));
 
 const app = express();
 
